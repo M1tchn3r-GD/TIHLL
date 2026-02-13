@@ -11,7 +11,7 @@ This list exists to preserve creativity, push theoretical limits, and archive le
 TIHLL is **not** a challenge list and **not** meant to be beaten legitimately. Its goals are to:
 
 - Archive impossible or near-impossible hell-style levels
-- Categorize levels based on theoretical difficulty
+- Categorize levels based on theoretical difficulty (If there's a gap, there's a gap. Levels using this will say "Placed on theoretical difficulty")
 - Preserve historically significant or experimental creations
 - Separate “impossible by design” from normal extreme gameplay
 
@@ -131,4 +131,4 @@ All levels belong to their respective creators.
 - GitHub Repository: *https://github.com/M1tchn3r-GD/TIHLL*
 - Website: *(add link if using GitHub Pages)*
 - Submissions *https://forms.gle/Z6vG4G3x3rUHrdv5A*
-- Contact Me: 
+- Contact Me: *thethirdeyeview1@gmail.com* or (recommended) *m1tchn3r.gd@gmail.com*
