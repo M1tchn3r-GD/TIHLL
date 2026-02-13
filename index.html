@@ -1,29 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>TIHL - The Impossible Hell Levels List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <span style="color:#FF4500; font-weight:bold; font-size:18px;">
+            Visit the List:
+        </span>
+        <button onclick="window.location.href='list.html'">Enter TIHLL Rankings</button>
+    </div>
+
+    <!-- Main Content -->
     <div class="container">
+
         <h1>TIHL - The Impossible Hell Levels List</h1>
 
+        <!-- Rules Section -->
         <section id="rules-section">
             <h2>Rules</h2>
             <div id="rules-container"></div>
         </section>
 
+        <!-- Categories Section -->
         <section id="categories-section">
             <h2>Category Key</h2>
             <div id="categories-container"></div>
         </section>
 
+        <!-- Questionnaire Section -->
         <section id="questionnaire-section">
             <h2>Level Submission Questionnaire</h2>
             <ol id="questionnaire-container"></ol>
         </section>
+
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <div id="copyright-container"></div>
+    </footer>
 
     <script src="siteData.js"></script>
     <script>
@@ -33,7 +55,6 @@
             const catTitle = document.createElement("h3");
             catTitle.textContent = rule.category;
             rulesContainer.appendChild(catTitle);
-
             const ul = document.createElement("ul");
             rule.items.forEach(item => {
                 const li = document.createElement("li");
@@ -46,14 +67,14 @@
         // Render Categories
         const categoriesContainer = document.getElementById("categories-container");
         TIHLData.categories.forEach(cat => {
-            const catDiv = document.createElement("div");
-            const catTitle = document.createElement("h3");
-            catTitle.textContent = cat.name;
-            const catDesc = document.createElement("p");
-            catDesc.textContent = cat.description;
-            catDiv.appendChild(catTitle);
-            catDiv.appendChild(catDesc);
-            categoriesContainer.appendChild(catDiv);
+            const div = document.createElement("div");
+            const title = document.createElement("h3");
+            title.textContent = cat.name;
+            const desc = document.createElement("p");
+            desc.textContent = cat.description;
+            div.appendChild(title);
+            div.appendChild(desc);
+            categoriesContainer.appendChild(div);
         });
 
         // Render Questionnaire
@@ -63,6 +84,15 @@
             li.textContent = q;
             questionnaireContainer.appendChild(li);
         });
+
+        // Render Copyright
+        const copyrightContainer = document.getElementById("copyright-container");
+        TIHLData.copyright.forEach(line => {
+            const p = document.createElement("p");
+            p.textContent = line;
+            copyrightContainer.appendChild(p);
+        });
     </script>
+
 </body>
 </html>
