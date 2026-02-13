@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TIHLL Rankings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <span style="color:#FF4500; font-weight:bold; font-size:18px;">TIHLL Rankings</span>
+        <button onclick="window.location.href='index.html'">Back to Home</button>
+    </div>
+
+    <div class="container">
+
+        <h1>Official TIHLL List</h1>
+
+        <!-- Example Main Level -->
+        <div class="example-level">
+            <strong>Abnormal Reality</strong><br>
+            Creator: M1tchn3r<br>
+            WR: 2% set by M1tchn3r<br>
+            Verified: No
+        </div>
+
+        <!-- Extended / Legacy List -->
+        <section style="margin-top:30px;">
+            <h2>Extended / Legacy List</h2>
+            <div id="extended-container"></div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div id="copyright-container"></div>
+    </footer>
+
+    <script>
+        const extendedContainer = document.getElementById("extended-container");
+
+        // Example legacy level
+        const legacyExample = document.createElement("div");
+        legacyExample.className = "legacy-level";
+        legacyExample.innerHTML = `
+            <strong>Legacy Level 1</strong><br>
+            Creator: ExampleCreator<br>
+            WR: 0% set by Example<br>
+            Verified: No
+        `;
+        extendedContainer.appendChild(legacyExample);
+    </script>
+
+</body>
+</html>
