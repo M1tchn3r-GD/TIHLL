@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TIHL - The Impossible Hell Levels List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>TIHL - The Impossible Hell Levels List</h1>
+
+        <section id="rules-section">
+            <h2>Rules</h2>
+            <div id="rules-container"></div>
+        </section>
+
+        <section id="categories-section">
+            <h2>Category Key</h2>
+            <div id="categories-container"></div>
+        </section>
+
+        <section id="questionnaire-section">
+            <h2>Level Submission Questionnaire</h2>
+            <ol id="questionnaire-container"></ol>
+        </section>
+    </div>
+
+    <script src="siteData.js"></script>
+    <script>
+        // Render Rules
+        const rulesContainer = document.getElementById("rules-container");
+        TIHLData.rules.forEach(rule => {
+            const catTitle = document.createElement("h3");
+            catTitle.textContent = rule.category;
+            rulesContainer.appendChild(catTitle);
+
+            const ul = document.createElement("ul");
+            rule.items.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                ul.appendChild(li);
+            });
+            rulesContainer.appendChild(ul);
+        });
+
+        // Render Categories
+        const categoriesContainer = document.getElementById("categories-container");
+        TIHLData.categories.forEach(cat => {
+            const catDiv = document.createElement("div");
+            const catTitle = document.createElement("h3");
+            catTitle.textContent = cat.name;
+            const catDesc = document.createElement("p");
+            catDesc.textContent = cat.description;
+            catDiv.appendChild(catTitle);
+            catDiv.appendChild(catDesc);
+            categoriesContainer.appendChild(catDiv);
+        });
+
+        // Render Questionnaire
+        const questionnaireContainer = document.getElementById("questionnaire-container");
+        TIHLData.questionnaire.forEach(q => {
+            const li = document.createElement("li");
+            li.textContent = q;
+            questionnaireContainer.appendChild(li);
+        });
+    </script>
+</body>
+</html>

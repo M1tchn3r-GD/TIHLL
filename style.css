@@ -1,0 +1,73 @@
+/* ===== GLOBAL STYLES ===== */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #0B0B0B; /* Deep Hell black */
+    color: #FF1A1A; /* Inferno red text */
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+}
+
+/* ===== HEADINGS ===== */
+h1, h2, h3 {
+    color: #FF4500; /* Molten orange */
+    margin: 10px 0;
+}
+
+/* ===== CONTAINERS ===== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ===== LISTS ===== */
+ul, ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin: 5px 0;
+    padding: 5px 10px;
+    border-left: 3px solid #FF1A1A;
+}
+
+/* ===== TABLES ===== */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #990000;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #330000;
+}
+
+td {
+    background-color: #1a0000;
+}
+
+/* ===== BUTTONS ===== */
+button {
+    background-color: #FF1A1A;
+    color: #FFF;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #CC0000;
+}
+
+/* ===== SECTION TOGGLES ===== */
+.section {
+    display: none; /* hidden by default */
+}
