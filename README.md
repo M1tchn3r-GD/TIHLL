@@ -129,6 +129,6 @@ All levels belong to their respective creators.
 
 ## **Links**
 - GitHub Repository: *https://github.com/M1tchn3r-GD/TIHLL*
-- Website: *(add link if using GitHub Pages)*
+- Website: *https://m1tchn3r-gd.github.io/TIHLL*
 - Submissions *https://forms.gle/Z6vG4G3x3rUHrdv5A*
 - Contact Me: *thethirdeyeview1@gmail.com* or (recommended) *m1tchn3r.gd@gmail.com*
