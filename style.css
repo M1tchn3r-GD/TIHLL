@@ -1,73 +1,102 @@
-/* ===== GLOBAL STYLES ===== */
+/* General Body */
 body {
+    background: linear-gradient(to bottom, #0B0B0B, #1a0000);
+    color: #FFDDDD;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #0B0B0B; /* Deep Hell black */
-    color: #FF1A1A; /* Inferno red text */
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.5;
 }
 
-/* ===== HEADINGS ===== */
-h1, h2, h3 {
-    color: #FF4500; /* Molten orange */
-    margin: 10px 0;
-}
-
-/* ===== CONTAINERS ===== */
+/* Container */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    width: 90%;
+    margin: 20px auto;
 }
 
-/* ===== LISTS ===== */
-ul, ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+/* Headings */
+h1 {
+    color: #FF3300;
+    text-shadow: 3px 3px 8px #660000;
+    text-align: center;
 }
 
-li {
-    margin: 5px 0;
-    padding: 5px 10px;
-    border-left: 3px solid #FF1A1A;
+h2 {
+    color: #FF1A1A;
+    text-shadow: 2px 2px 5px #660000;
+    font-size: 1.6em;
 }
 
-/* ===== TABLES ===== */
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th, td {
-    border: 1px solid #990000;
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background-color: #330000;
-}
-
-td {
+/* Top Nav Bar */
+.top-nav {
+    width: 90%;
+    margin: 20px auto;
+    padding: 15px;
     background-color: #1a0000;
+    border: 2px solid #FF1A1A;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 15px rgba(255, 26, 26, 0.4);
 }
 
-/* ===== BUTTONS ===== */
+/* Buttons */
 button {
-    background-color: #FF1A1A;
-    color: #FFF;
-    border: none;
+    background: linear-gradient(to bottom, #FF1A1A, #CC0000);
+    border-radius: 999px;
     padding: 10px 20px;
+    color: white;
+    font-weight: bold;
     cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 8px #FF1A1A;
+    border: none;
 }
 
 button:hover {
-    background-color: #CC0000;
+    box-shadow: 0 0 18px #FF4500;
+    transform: scale(1.05);
 }
 
-/* ===== SECTION TOGGLES ===== */
-.section {
-    display: none; /* hidden by default */
+/* Level Cards */
+.example-level, .legacy-level {
+    border-left: 4px solid #FF1A1A;
+    border-radius: 10px;
+    background-color: #111;
+    padding: 15px;
+    margin: 10px 0;
+    box-shadow: 0 0 15px rgba(255, 26, 26, 0.5);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.example-level:hover, .legacy-level:hover {
+    box-shadow: 0 0 25px rgba(255, 50, 50, 0.8);
+    transform: scale(1.02);
+}
+
+/* Legacy / Extended Animation */
+.legacy-level {
+    background-color: #1a0a0a;
+    border-left: 4px solid #FF3300;
+    animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0; transform: translateY(20px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+
+/* Footer */
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #990000;
+    background-color: #0B0B0B;
+}
+
+footer p {
+    color: #FF1A1A;
+    font-size: 14px;
+    margin: 2px 0;
 }
