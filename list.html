@@ -4,55 +4,223 @@
     <meta charset="UTF-8">
     <title>TIHLL Rankings</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Official TIHLL Rankings — The Impossible Hell Levels List.">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <!-- Top Navigation -->
-    <div class="top-nav">
-        <span style="color:#FF4500; font-weight:bold; font-size:18px;">TIHLL Rankings</span>
-        <button onclick="window.location.href='index.html'">Back to Home</button>
-    </div>
+    <nav class="top-nav">
+        <span class="nav-title">TIHLL Rankings</span>
+        <div class="nav-controls">
+            <span id="level-count" style="font-family:var(--font-mono); font-size:0.78rem; color:var(--text-muted);"></span>
+            <button onclick="window.location.href='index.html'" class="secondary">← Home</button>
+        </div>
+    </nav>
 
     <div class="container">
 
-        <h1>Official TIHLL List</h1>
+        <h1 style="margin-bottom:8px;">Official TIHLL List</h1>
+        <p style="text-align:center; color:var(--text-muted); font-family:var(--font-mono); font-size:0.78rem;
+                  letter-spacing:0.1em; text-transform:uppercase; margin-bottom:32px;">
+            Ranked by Theoretical Difficulty
+        </p>
 
-        <!-- Example Main Level -->
-        <div class="example-level">
-            <strong>Abnormal Reality</strong><br>
-            Creator: M1tchn3r<br>
-            WR: 2% set by M1tchn3r<br>
-            Verified: No
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <input
+                class="search-input"
+                type="text"
+                id="search-input"
+                placeholder="Search levels, creators, tags..."
+                oninput="applyFilters()"
+            />
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button class="filter-btn active" data-tier="all"    onclick="setTierFilter(this)">All</button>
+                <button class="filter-btn"         data-tier="upper" onclick="setTierFilter(this)">Upper</button>
+                <button class="filter-btn"         data-tier="mid"   onclick="setTierFilter(this)">Mid</button>
+                <button class="filter-btn"         data-tier="lower" onclick="setTierFilter(this)">Lower</button>
+                <button class="filter-btn"         data-tier="legacy" onclick="setTierFilter(this)">Legacy</button>
+            </div>
         </div>
 
-        <!-- Extended / Legacy List -->
-        <section style="margin-top:30px;">
-            <h2>Extended / Legacy List</h2>
-            <div id="extended-container"></div>
-        </section>
+        <!-- Level List -->
+        <div id="levels-container"></div>
 
     </div>
 
     <!-- Footer -->
     <footer>
         <div id="copyright-container"></div>
+        <p style="margin-top:10px;">
+            <a href="https://github.com/M1tchn3r-GD/TIHLL" target="_blank">GitHub</a>
+            &nbsp;·&nbsp;
+            <a href="mailto:thehellslevelslist@gmail.com">Contact</a>
+            &nbsp;·&nbsp;
+            <a href="https://forms.gle/Z6vG4G3x3rUHrdv5A" target="_blank">Submit Level</a>
+        </p>
     </footer>
 
+    <script src="siteData.js"></script>
     <script>
-        const extendedContainer = document.getElementById("extended-container");
+        let activeTier = "all";
 
-        // Example legacy level
-        const legacyExample = document.createElement("div");
-        legacyExample.className = "legacy-level";
-        legacyExample.innerHTML = `
-            <strong>Legacy Level 1</strong><br>
-            Creator: ExampleCreator<br>
-            WR: 0% set by Example<br>
-            Verified: No
-        `;
-        extendedContainer.appendChild(legacyExample);
+        // ── Category color lookup ──────────────────────────
+        function getCategoryStyle(tag) {
+            const cat = TIHLData.categories.find(c => c.tag === tag);
+            return cat ? { color: cat.color, label: tag } : { color: "var(--slate)", label: tag };
+        }
+
+        // ── Tier color lookup ──────────────────────────────
+        function getTierColor(tierId) {
+            const tier = TIHLData.tiers.find(t => t.id === tierId);
+            return tier ? tier.color : "var(--red-bright)";
+        }
+
+        // ── Build a single level card ──────────────────────
+        function buildLevelCard(level) {
+            const catStyle = getCategoryStyle(level.category);
+
+            const card = document.createElement("div");
+            card.className = `level-card${level.tier === "legacy" ? " legacy" : ""}`;
+            card.dataset.tier = level.tier;
+            card.dataset.name = level.name.toLowerCase();
+            card.dataset.creator = level.creator.toLowerCase();
+            card.dataset.tags = (level.tags || []).join(" ").toLowerCase();
+
+            card.style.setProperty("--card-accent", getTierColor(level.tier));
+            card.style.borderLeftColor = getTierColor(level.tier);
+
+            const verifiedStr = level.verified
+                ? `<span style="color:#4ade80;">✔ Verified</span>`
+                : `<span style="color:var(--text-muted);">✖ Unverified</span>`;
+
+            const tagsHtml = (level.tags || [])
+                .map(t => `<span class="tag">${t}</span>`)
+                .join("");
+
+            card.innerHTML = `
+                <div class="level-rank">#${level.rank}</div>
+
+                <div class="level-body">
+                    <div class="level-name">${level.name}</div>
+                    <div class="level-meta">
+                        <span>Creator: <strong style="color:var(--text-secondary);">${level.creator}</strong></span>
+                        <span>ID: <strong style="color:var(--text-secondary);">${level.levelID}</strong></span>
+                        ${verifiedStr}
+                    </div>
+                    <div class="level-description">${level.description}</div>
+                    <div class="level-tags">${tagsHtml}</div>
+                </div>
+
+                <div class="level-badge" style="color:${catStyle.color}; border-color:${catStyle.color}40; background:${catStyle.color}14;">
+                    ${catStyle.label}
+                </div>
+
+                <div class="level-stats">
+                    <div class="stat">
+                        <span class="stat-label">WR / Best%</span>
+                        <span class="stat-value">${level.wr}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">CPS</span>
+                        <span class="stat-value">${level.cps}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Frame Window</span>
+                        <span class="stat-value">${level.frameWindow}</span>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        // ── Render all levels grouped by tier ─────────────
+        function renderLevels(levels) {
+            const container = document.getElementById("levels-container");
+            container.innerHTML = "";
+
+            if (levels.length === 0) {
+                container.innerHTML = `<div class="empty-state">NO LEVELS MATCH — ADJUST SEARCH OR FILTER</div>`;
+                return;
+            }
+
+            const grouped = {};
+            TIHLData.tiers.forEach(t => { grouped[t.id] = []; });
+            levels.forEach(l => {
+                if (grouped[l.tier]) grouped[l.tier].push(l);
+            });
+
+            TIHLData.tiers.forEach(tier => {
+                const group = grouped[tier.id];
+                if (!group || group.length === 0) return;
+
+                // Tier header
+                const header = document.createElement("div");
+                header.className = "tier-header";
+                header.style.setProperty("--tier-color", tier.color);
+                header.innerHTML = `
+                    <h2 style="color:${tier.color}; text-shadow:0 0 10px ${tier.color}80;">${tier.label}</h2>
+                    <span class="tier-count">${group.length} level${group.length !== 1 ? "s" : ""}</span>
+                `;
+                container.appendChild(header);
+
+                // Level cards
+                group.forEach((level, i) => {
+                    const card = buildLevelCard(level);
+                    card.style.animationDelay = `${i * 0.06}s`;
+                    container.appendChild(card);
+                });
+            });
+        }
+
+        // ── Filter logic ───────────────────────────────────
+        function applyFilters() {
+            const query = document.getElementById("search-input").value.toLowerCase().trim();
+
+            let filtered = TIHLData.levels;
+
+            if (activeTier !== "all") {
+                filtered = filtered.filter(l => l.tier === activeTier);
+            }
+
+            if (query) {
+                filtered = filtered.filter(l =>
+                    l.name.toLowerCase().includes(query) ||
+                    l.creator.toLowerCase().includes(query) ||
+                    (l.tags || []).some(t => t.toLowerCase().includes(query)) ||
+                    l.description.toLowerCase().includes(query)
+                );
+            }
+
+            renderLevels(filtered);
+            updateCount(filtered.length);
+        }
+
+        function setTierFilter(btn) {
+            document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            activeTier = btn.dataset.tier;
+            applyFilters();
+        }
+
+        function updateCount(n) {
+            document.getElementById("level-count").textContent =
+                `${n} / ${TIHLData.levels.length} levels`;
+        }
+
+        // ── Copyright ──────────────────────────────────────
+        const copyrightContainer = document.getElementById("copyright-container");
+        TIHLData.copyright.forEach(line => {
+            const p = document.createElement("p");
+            p.textContent = line;
+            copyrightContainer.appendChild(p);
+        });
+
+        // ── Init ───────────────────────────────────────────
+        renderLevels(TIHLData.levels);
+        updateCount(TIHLData.levels.length);
     </script>
 
 </body>
