@@ -131,4 +131,4 @@ All levels belong to their respective creators.
 - GitHub Repository: *https://github.com/M1tchn3r-GD/TIHLL*
 - Website: *https://m1tchn3r-gd.github.io/TIHLL*
 - Submissions *https://forms.gle/Z6vG4G3x3rUHrdv5A*
-- Contact Me: *thethirdeyeview1@gmail.com* or (recommended) *thehellslevelslist@gmail.com*
+- Contact Me: *m1tchn3r.gd@gmail.com*, (Normal Questions) *m1tchn3rdev@gmail.com* (Urgent Questions), or *thehellslevelslist@gmail.com* (Important Stuff)
