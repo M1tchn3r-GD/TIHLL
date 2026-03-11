@@ -1,20 +1,8 @@
-/**
- * TIHLL DevPanel — devpanel.js
- * ─────────────────────────────────────────────────────────────
- * Type the unlock sequence anywhere on the page to open the
- * dev command terminal. No clicks required.
- *
- * DEFAULT SEQUENCE: "tihll" (just type it, lowercase)
- * Change UNLOCK_SEQUENCE below to whatever you want.
- * ─────────────────────────────────────────────────────────────
- */
-// Note: Im still working on this one
-
 (function () {
     "use strict";
 
     // ── Config ────────────────────────────────────────────────
-    const UNLOCK_SEQUENCE = "tihll";       // type this anywhere to open
+    const UNLOCK_SEQUENCE = "09911990";       // type this anywhere to open
     const PANEL_VERSION   = "v1.0.0";
     const REQUIRE_CONFIRM = false;         // set true to prompt password too
     const CONFIRM_PASS    = "admin";       // only used if REQUIRE_CONFIRM = true
@@ -274,7 +262,7 @@
             desc: "List all levels with rank, tier, and category",
             usage: "levels",
             run() {
-                if (!window.TIHLData) return print("TIHLData not found on this page.", "error");
+                if (typeof TIHLData === "undefined") return print("TIHLData not found on this page.", "error");
                 gap();
                 print(`  ${"#".padEnd(4)} ${"NAME".padEnd(22)} ${"TIER".padEnd(8)} ${"CATEGORY".padEnd(14)} WR`, "muted");
                 print("  " + "─".repeat(70), "muted");
@@ -292,7 +280,7 @@
             usage: "level <rank>",
             run(args) {
                 if (!args[0]) return print("Usage: level <rank>", "warn");
-                if (!window.TIHLData) return print("TIHLData not found.", "error");
+                if (typeof TIHLData === "undefined") return print("TIHLData not found.", "error");
                 const rank = parseInt(args[0]);
                 const l = TIHLData.levels.find(x => x.rank === rank);
                 if (!l) return print(`No level found at rank #${rank}`, "error");
@@ -318,7 +306,7 @@
             usage: "search <query>",
             run(args) {
                 if (!args[0]) return print("Usage: search <query>", "warn");
-                if (!window.TIHLData) return print("TIHLData not found.", "error");
+                if (typeof TIHLData === "undefined") return print("TIHLData not found.", "error");
                 const q = args.join(" ").toLowerCase();
                 const results = TIHLData.levels.filter(l =>
                     l.name.toLowerCase().includes(q) ||
@@ -341,7 +329,7 @@
             desc: "Show list statistics",
             usage: "stats",
             run() {
-                if (!window.TIHLData) return print("TIHLData not found.", "error");
+                if (typeof TIHLData === "undefined") return print("TIHLData not found.", "error");
                 const lvls = TIHLData.levels;
                 gap();
                 print("  ── LIST STATS ─────────────────────────────", "muted");
@@ -369,7 +357,7 @@
             desc: "Update the WR string for a level (by rank)",
             usage: "setwr <rank> <new WR string>",
             run(args) {
-                if (!window.TIHLData) return print("TIHLData not found.", "error");
+                if (typeof TIHLData === "undefined") return print("TIHLData not found.", "error");
                 if (args.length < 2) return print("Usage: setwr <rank> <new WR string>", "warn");
                 const rank = parseInt(args[0]);
                 const l = TIHLData.levels.find(x => x.rank === rank);
@@ -386,7 +374,7 @@
             desc: "Toggle verified status of a level by rank",
             usage: "verify <rank>",
             run(args) {
-                if (!window.TIHLData) return print("TIHLData not found.", "error");
+                if (typeof TIHLData === "undefined") return print("TIHLData not found.", "error");
                 if (!args[0]) return print("Usage: verify <rank>", "warn");
                 const rank = parseInt(args[0]);
                 const l = TIHLData.levels.find(x => x.rank === rank);
@@ -401,7 +389,7 @@
             desc: "Export current TIHLData.levels as JSON to clipboard",
             usage: "export",
             async run() {
-                if (!window.TIHLData) return print("TIHLData not found.", "error");
+                if (typeof TIHLData === "undefined") return print("TIHLData not found.", "error");
                 const json = JSON.stringify(TIHLData.levels, null, 2);
                 try {
                     await navigator.clipboard.writeText(json);
