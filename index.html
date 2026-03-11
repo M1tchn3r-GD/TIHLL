@@ -2,25 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TIHL - The Impossible Hell Levels List</title>
+    <title>TIHL — The Impossible Hell Levels List</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TIHLL — A community-driven archive of theoretical and impossible Geometry Dash hell levels.">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <!-- Top Navigation -->
-    <div class="top-nav">
-        <span style="color:#FF4500; font-weight:bold; font-size:18px;">
-            Visit the List:
-        </span>
-        <button onclick="window.location.href='list.html'">Enter TIHLL Rankings</button>
-    </div>
+    <nav class="top-nav">
+        <span class="nav-title">TIHLL</span>
+        <div class="nav-controls">
+            <button onclick="window.location.href='list.html'">View Rankings</button>
+        </div>
+    </nav>
 
     <!-- Main Content -->
     <div class="container">
 
-        <h1>TIHL - The Impossible Hell Levels List</h1>
+        <!-- Hero -->
+        <header style="text-align:center; padding: 32px 0 40px;">
+            <h1>The Impossible<br>Hell Levels List</h1>
+            <p style="color:var(--text-muted); font-family:var(--font-mono); font-size:0.82rem; letter-spacing:0.12em; text-transform:uppercase; margin-top:12px;">
+                Community Archive · Theoretical Rankings · Geometry Dash
+            </p>
+            <div style="display:flex; gap:12px; justify-content:center; margin-top:24px; flex-wrap:wrap;">
+                <button onclick="window.location.href='list.html'">Enter Rankings</button>
+                <button class="secondary" onclick="window.location.href='https://forms.gle/Z6vG4G3x3rUHrdv5A'" target="_blank">Submit a Level</button>
+            </div>
+        </header>
+
+        <!-- Quick Stats -->
+        <div id="stats-bar" style="
+            display:flex; gap:0; justify-content:center; flex-wrap:wrap;
+            border:1px solid rgba(255,26,26,0.2); border-radius:12px;
+            overflow:hidden; margin-bottom:48px; background:rgba(255,26,26,0.03);">
+        </div>
 
         <!-- Rules Section -->
         <section id="rules-section">
@@ -31,13 +49,28 @@
         <!-- Categories Section -->
         <section id="categories-section">
             <h2>Category Key</h2>
-            <div id="categories-container"></div>
+            <div class="category-grid" id="categories-container"></div>
+        </section>
+
+        <!-- Tier Structure -->
+        <section id="tiers-section">
+            <h2>Tier Structure</h2>
+            <div id="tiers-container"></div>
         </section>
 
         <!-- Questionnaire Section -->
         <section id="questionnaire-section">
-            <h2>Level Submission Questionnaire</h2>
-            <ol id="questionnaire-container"></ol>
+            <h2>Submission Questionnaire</h2>
+            <p style="margin-bottom:16px; font-size:0.9rem;">
+                Include answers to all of the following when submitting a level.
+                Submissions without sufficient detail may be rejected.
+            </p>
+            <ol class="questionnaire-list" id="questionnaire-container"></ol>
+            <div style="margin-top:20px;">
+                <button onclick="window.open('https://forms.gle/Z6vG4G3x3rUHrdv5A', '_blank')">
+                    Open Submission Form ↗
+                </button>
+            </div>
         </section>
 
     </div>
@@ -45,47 +78,103 @@
     <!-- Footer -->
     <footer>
         <div id="copyright-container"></div>
+        <p style="margin-top:10px;">
+            <a href="https://github.com/M1tchn3r-GD/TIHLL" target="_blank">GitHub</a>
+            &nbsp;·&nbsp;
+            <a href="mailto:thehellslevelslist@gmail.com">Contact</a>
+        </p>
     </footer>
 
     <script src="siteData.js"></script>
+    <script src="devpanel.js"></script>
     <script>
-        // Render Rules
+        // ── Quick Stats Bar ────────────────────────────────
+        const statsBar = document.getElementById("stats-bar");
+        const stats = [
+            { label: "Total Levels",   value: TIHLData.levels.length },
+            { label: "TAS Verified",   value: TIHLData.levels.filter(l => l.category === "TAS").length },
+            { label: "Unverified",     value: TIHLData.levels.filter(l => l.category === "UNVERIFIED").length },
+            { label: "Legacy",         value: TIHLData.levels.filter(l => l.tier === "legacy").length },
+            { label: "Historic",       value: TIHLData.levels.filter(l => l.category === "HISTORIC").length },
+        ];
+        stats.forEach((s, i) => {
+            const div = document.createElement("div");
+            div.style.cssText = `
+                flex:1; min-width:100px; padding:18px 12px; text-align:center;
+                border-right: ${i < stats.length - 1 ? '1px solid rgba(255,26,26,0.15)' : 'none'};
+            `;
+            div.innerHTML = `
+                <div style="font-family:var(--font-display); font-size:2rem; color:var(--red-bright);
+                            text-shadow:0 0 10px rgba(255,26,26,0.5); line-height:1;">${s.value}</div>
+                <div style="font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted);
+                            letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">${s.label}</div>
+            `;
+            statsBar.appendChild(div);
+        });
+
+        // ── Rules ──────────────────────────────────────────
         const rulesContainer = document.getElementById("rules-container");
         TIHLData.rules.forEach(rule => {
-            const catTitle = document.createElement("h3");
-            catTitle.textContent = rule.category;
-            rulesContainer.appendChild(catTitle);
+            const div = document.createElement("div");
+            div.className = "rules-category";
+            const title = document.createElement("h3");
+            title.textContent = rule.category;
+            div.appendChild(title);
             const ul = document.createElement("ul");
             rule.items.forEach(item => {
                 const li = document.createElement("li");
                 li.textContent = item;
                 ul.appendChild(li);
             });
-            rulesContainer.appendChild(ul);
+            div.appendChild(ul);
+            rulesContainer.appendChild(div);
         });
 
-        // Render Categories
+        // ── Categories ─────────────────────────────────────
         const categoriesContainer = document.getElementById("categories-container");
         TIHLData.categories.forEach(cat => {
             const div = document.createElement("div");
-            const title = document.createElement("h3");
-            title.textContent = cat.name;
-            const desc = document.createElement("p");
-            desc.textContent = cat.description;
-            div.appendChild(title);
-            div.appendChild(desc);
+            div.className = "category-card";
+            div.style.setProperty("--cat-color", cat.color);
+            div.innerHTML = `
+                <div class="category-tag" style="color:${cat.color}; border-color:${cat.color}40; background:${cat.color}14;">
+                    ${cat.tag}
+                </div>
+                <h3 style="margin-bottom:4px;">${cat.name}</h3>
+                <p style="font-size:0.85rem;">${cat.description}</p>
+            `;
             categoriesContainer.appendChild(div);
         });
 
-        // Render Questionnaire
-        const questionnaireContainer = document.getElementById("questionnaire-container");
+        // ── Tier Structure ─────────────────────────────────
+        const tiersContainer = document.getElementById("tiers-container");
+        TIHLData.tiers.forEach(tier => {
+            const count = TIHLData.levels.filter(l => l.tier === tier.id).length;
+            const div = document.createElement("div");
+            div.style.cssText = `
+                display:flex; align-items:center; gap:16px; padding:14px 18px; margin-bottom:8px;
+                background:rgba(255,26,26,0.03); border:1px solid rgba(255,26,26,0.1);
+                border-left:3px solid ${tier.color}; border-radius:10px;
+            `;
+            div.innerHTML = `
+                <div style="font-family:var(--font-display); font-size:1rem; letter-spacing:0.08em;
+                             color:${tier.color}; white-space:nowrap; min-width:140px;">${tier.label}</div>
+                <div style="font-size:0.88rem; color:var(--text-secondary); flex:1;">${tier.description}</div>
+                <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);
+                             white-space:nowrap;">${count} level${count !== 1 ? 's' : ''}</div>
+            `;
+            tiersContainer.appendChild(div);
+        });
+
+        // ── Questionnaire ──────────────────────────────────
+        const qContainer = document.getElementById("questionnaire-container");
         TIHLData.questionnaire.forEach(q => {
             const li = document.createElement("li");
             li.textContent = q;
-            questionnaireContainer.appendChild(li);
+            qContainer.appendChild(li);
         });
 
-        // Render Copyright
+        // ── Copyright ──────────────────────────────────────
         const copyrightContainer = document.getElementById("copyright-container");
         TIHLData.copyright.forEach(line => {
             const p = document.createElement("p");
