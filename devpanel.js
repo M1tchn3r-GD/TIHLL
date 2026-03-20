@@ -2,10 +2,10 @@
     "use strict";
 
     // ── Config ────────────────────────────────────────────────
-    const UNLOCK_SEQUENCE = "09911990";       // type this anywhere to open
-    const PANEL_VERSION   = "v1.0.0";
-    const REQUIRE_CONFIRM = false;         // set true to prompt password too
-    const CONFIRM_PASS    = "admin";       // only used if REQUIRE_CONFIRM = true
+    const UNLOCK_SEQUENCE = "qwertyuiopasdfghjklzxcvbnm,./123045607890";       // type this anywhere to open
+    const PANEL_VERSION   = "v2.0.1";
+    const REQUIRE_CONFIRM = true;         // set true to prompt password too
+    const CONFIRM_PASS    = "mnbvcxzlkjhgfdsapoiuytrewq032106540987";       // only used if REQUIRE_CONFIRM = true
 
     // ── State ─────────────────────────────────────────────────
     let inputBuffer   = "";

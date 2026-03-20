@@ -113,7 +113,8 @@ const TIHLData = {
         "All original written content, design, and site code are protected.",
         "Geometry Dash and all listed levels belong to their respective creators.",
         "TIHLL is an unofficial fan project. Not affiliated with RobTopGames.",
-        "Unauthorized distribution or reproduction without permission is prohibited."
+        "Unauthorized distribution or reproduction without permission is prohibited.",
+        "Note, this is an Indie project, I do this all by myself."
     ]
 
 };
