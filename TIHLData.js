@@ -98,9 +98,8 @@ const TIHLData = {
     // Add new poem categories here as needed.
     poemCategories: [
         { tag: "Life",      color: "#4ADE80", name: "Life"      },
-        { tag: "Hell",      color: "#FF1A1A", name: "Hell"      },
-        { tag: "Reflection",color: "#A78BFA", name: "Reflection"},
-        { tag: "Creation",  color: "#38BDF8", name: "Creation"  },
+        { tag: "Reflect",   color: "#A78BFA", name: "Reflect"   },
+        { tag: "Creative",  color: "#38BDF8", name: "Creative"  },
         { tag: "Archive",   color: "#94A3B8", name: "Archive"   },
     ],
 
@@ -117,7 +116,7 @@ const TIHLData = {
         {
             title: "The Wise Old Bird",
             author: "M1tchn3r",
-            date: "2026",
+            date: "March 3, 2026",
             category: "Life",
             tags: ["Remember That"],
             body:
@@ -125,6 +124,61 @@ const TIHLData = {
 The more he saw, the less he spoke.
 The less he spoke, the more he heard:
 Why aren't we like that wise old bird?`
+        },
+        {
+    title: "No Excuse",
+    author: "M1tchn3r",
+    date: "March 22, 2026",
+    category: "Life",
+    tags: ["Don't forget"],
+    body:
+`When the road grows long and the end unclear,
+Every step feels heavier than the last,
+There is no excuse to stop right here —
+The future never waits upon the past.
+
+When the hands grow tired and the mind grows thin,
+And doubt creeps in like cold beneath a door,
+There is no excuse to not begin
+Again — and try once more.
+
+For what is lost in giving up the climb
+Can never quite be found on level ground.
+No excuse holds weight against the time
+You could have spent in fighting to be found.
+
+So go get out there, and do what drives you still.
+No excuse outlasts, a very stubborn will.`
+        },
+        {
+            title: "The Search",
+            author: "NF",
+            date: "July 26, 2019",
+            category: "Life",
+            tags: ["Dr. Seuss"],
+            body:
+`"Yeah, the sales can rise,
+Doesn't mean much though when your health declines.
+See, we've all got somethin' that we trapped inside,
+That we try to suffocate, you know, hopin' it dies,
+Try to hold it underwater, but it always survives.
+Then it comes up outta nowhere like an evil surprise,
+Then it hovers over you to tell you millions of lies,
+
+You don't relate to that?
+Must not be as crazy as I am.
+
+The point I'm makin' is the mind is a powerful place,
+And what you feed it can affect you in a powerful way.
+It's pretty cool, right?
+Yeah, but it's not always safe.
+
+Just hang with me, this'll only take a moment, okay?
+Just think about it for a second, if you look at your face,
+Every day when you get up and think you'll never be great.
+You'll never be great,
+Not because you're not, but the hate,
+Will always find a way to cut you up and murder your faith, woo."`
         },
     ],
 
