@@ -93,6 +93,41 @@ const TIHLData = {
         // Add levels here
     ],
 
+    // ── Poem Categories ────────────────────────────────────
+    // Separate from level categories. Used for badge color on poem cards.
+    // Add new poem categories here as needed.
+    poemCategories: [
+        { tag: "Life",      color: "#4ADE80", name: "Life"      },
+        { tag: "Hell",      color: "#FF1A1A", name: "Hell"      },
+        { tag: "Reflection",color: "#A78BFA", name: "Reflection"},
+        { tag: "Creation",  color: "#38BDF8", name: "Creation"  },
+        { tag: "Archive",   color: "#94A3B8", name: "Archive"   },
+    ],
+
+    // ── Poems ──────────────────────────────────────────────
+    // Each poem object:
+    //   title    {string}   — Display title of the poem
+    //   author   {string}   — Author name
+    //   date     {string}   — Optional: e.g. "March 2026"
+    //   category {string}   — Optional: a tag from poemCategories above
+    //                         Controls the accent color. Leave "" or omit for grey.
+    //   tags     {string[]} — Optional: free-form tags used for filtering
+    //   body     {string}   — The full poem text. Line breaks are preserved exactly.
+    poems: [
+        {
+            title: "The Wise Old Bird",
+            author: "M1tchn3r",
+            date: "2026",
+            category: "Life",
+            tags: ["Remember That"],
+            body:
+`A wise old owl sat in an oak.
+The more he saw, the less he spoke.
+The less he spoke, the more he heard:
+Why aren't we like that wise old bird?`
+        },
+    ],
+
     questionnaire: [
         "What is the Level Name?",
         "Who is the Creator (or all creators for collabs)?",

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TIHLL — Poems</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TIHLL Poems — Writings from the impossible depths.">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── Poem Page Extras ────────────────────────────── */
+
+        .poems-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 36px;
+        }
+
+        /* Filter bar reuse */
+        .poem-filter-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 32px;
+            padding: 14px 18px;
+            background: rgba(255,26,26,0.04);
+            border: 1px solid rgba(255,26,26,0.12);
+            border-radius: 10px;
+        }
+
+        .poem-filter-bar input {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        /* Tag pills for filtering */
+        .poem-tag-pill {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,26,26,0.25);
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+        .poem-tag-pill:hover {
+            border-color: var(--red-bright);
+            color: var(--red-bright);
+            background: rgba(255,26,26,0.08);
+        }
+        .poem-tag-pill.active {
+            border-color: var(--red-bright);
+            color: var(--red-bright);
+            background: rgba(255,26,26,0.12);
+        }
+
+        /* ── Poem Card ────────────────────────────────────── */
+        .poem-card {
+            position: relative;
+            background: rgba(255,26,26,0.03);
+            border: 1px solid rgba(255,26,26,0.1);
+            border-left: 3px solid var(--red-bright);
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            animation: fadeSlide 0.4s ease both;
+        }
+        .poem-card:hover {
+            border-color: rgba(255,26,26,0.35);
+            box-shadow: 0 0 20px rgba(255,26,26,0.07);
+        }
+
+        /* Faint decorative quote mark */
+        .poem-card::before {
+            content: "\201C";
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 7rem;
+            font-family: Georgia, serif;
+            color: rgba(255,26,26,0.05);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .poem-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .poem-title {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            letter-spacing: 0.06em;
+            color: var(--text-primary);
+        }
+
+        .poem-meta {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            margin-top: 4px;
+        }
+
+        .poem-badge {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 4px;
+            border: 1px solid;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* ── Poem Body ────────────────────────────────────── */
+        .poem-body {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 0.97rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            border-left: 2px solid rgba(255,26,26,0.15);
+            padding-left: 20px;
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.35s ease,
+                        padding 0.3s ease;
+            opacity: 0;
+        }
+        .poem-body.expanded {
+            max-height: 2000px;
+            opacity: 1;
+            padding-left: 20px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        .poem-toggle {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--red-bright);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-top: 14px;
+            opacity: 0.75;
+            transition: opacity 0.15s;
+        }
+        .poem-toggle:hover { opacity: 1; }
+
+        .poem-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+        .poem-tag {
+            font-family: var(--font-mono);
+            font-size: 0.63rem;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 3px;
+            background: rgba(255,26,26,0.08);
+            border: 1px solid rgba(255,26,26,0.18);
+            color: var(--text-muted);
+        }
+
+        /* ── Empty State ──────────────────────────────────── */
+        .empty-poems {
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 60px 0;
+            opacity: 0.6;
+        }
+
+        /* ── Poem Count ───────────────────────────────────── */
+        #poem-count {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0);    }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <span class="nav-title">TIHLL Poems</span>
+        <div class="nav-controls">
+            <span id="poem-count"></span>
+            <button onclick="window.location.href='list.html'" class="secondary">Rankings</button>
+            <button onclick="window.location.href='index.html'" class="secondary">← Home</button>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <h1 style="margin-bottom:8px;">Poems</h1>
+        <p class="poems-subtitle">Writings from the impossible depths</p>
+
+        <!-- Filter Bar -->
+        <div class="poem-filter-bar">
+            <input
+                class="search-input"
+                type="text"
+                id="poem-search"
+                placeholder="Search poems, authors, tags..."
+                oninput="applyPoemFilters()"
+                style="min-width:180px;"
+            />
+            <div style="display:flex; gap:6px; flex-wrap:wrap;" id="tag-filters">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Poem List -->
+        <div id="poems-container"></div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div id="copyright-container"></div>
+        <p style="margin-top:10px;">
+            <a href="https://github.com/M1tchn3r-GD/TIHLL" target="_blank">GitHub</a>
+            &nbsp;·&nbsp;
+            <a href="/cdn-cgi/l/email-protection#83f7ebe6ebe6efeff0efe6f5e6eff0efeaf0f7c3e4eee2eaefade0ecee">Contact</a>
+            &nbsp;·&nbsp;
+            <a href="https://forms.gle/Z6vG4G3x3rUHrdv5A" target="_blank">Submit Level</a>
+        </p>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="TIHLData.js"></script>
+    <script src="devpanel.js"></script>
+    <script>
+        let activeTag = "all";
+
+        // ── Collect all unique tags from poems ─────────────
+        function getAllTags() {
+            const tagSet = new Set();
+            (TIHLData.poems || []).forEach(p =>
+                (p.tags || []).forEach(t => tagSet.add(t))
+            );
+            return ["all", ...Array.from(tagSet).sort()];
+        }
+
+        // ── Build tag filter pills ─────────────────────────
+        function buildTagFilters() {
+            const container = document.getElementById("tag-filters");
+            getAllTags().forEach(tag => {
+                const btn = document.createElement("button");
+                btn.className = `poem-tag-pill${tag === "all" ? " active" : ""}`;
+                btn.textContent = tag === "all" ? "All" : tag;
+                btn.dataset.tag = tag;
+                btn.onclick = () => setTagFilter(btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function setTagFilter(btn) {
+            document.querySelectorAll(".poem-tag-pill").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            activeTag = btn.dataset.tag;
+            applyPoemFilters();
+        }
+
+        // ── Build a single poem card ───────────────────────
+        function buildPoemCard(poem, index) {
+            // Find badge color from poemCategories first, fall back to level categories
+            const cat = (TIHLData.poemCategories || []).find(c => c.tag === poem.category)
+                     || (TIHLData.categories     || []).find(c => c.tag === poem.category);
+            const badgeColor = cat ? cat.color : "#94A3B8";
+
+            const card = document.createElement("div");
+            card.className = "poem-card";
+            card.style.animationDelay = `${index * 0.07}s`;
+            card.style.borderLeftColor = badgeColor;
+
+            const tagsHtml = (poem.tags || [])
+                .map(t => `<span class="poem-tag">${t}</span>`)
+                .join("");
+
+            const badgeHtml = poem.category
+                ? `<span class="poem-badge" style="color:${badgeColor}; border-color:${badgeColor}60; background:${badgeColor}18;">${poem.category}</span>`
+                : "";
+
+            card.innerHTML = `
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title">${poem.title}</div>
+                        <div class="poem-meta">
+                            By <strong style="color:var(--text-secondary);">${poem.author}</strong>
+                            ${poem.date ? `· <span>${poem.date}</span>` : ""}
+                        </div>
+                    </div>
+                    ${badgeHtml}
+                </div>
+
+                <pre class="poem-body" id="poem-body-${index}">${poem.body}</pre>
+
+                <button class="poem-toggle" onclick="togglePoem(${index}, this)">
+                    ▼ Read Poem
+                </button>
+
+                ${tagsHtml ? `<div class="poem-tags">${tagsHtml}</div>` : ""}
+            `;
+            return card;
+        }
+
+        // ── Toggle poem expand/collapse ────────────────────
+        function togglePoem(index, btn) {
+            const body = document.getElementById(`poem-body-${index}`);
+            const expanded = body.classList.toggle("expanded");
+            btn.textContent = expanded ? "▲ Collapse" : "▼ Read Poem";
+        }
+
+        // ── Render filtered poems ──────────────────────────
+        function renderPoems(poems) {
+            const container = document.getElementById("poems-container");
+            container.innerHTML = "";
+
+            if (!poems || poems.length === 0) {
+                container.innerHTML = `<div class="empty-poems">No poems found — adjust your search or filters.</div>`;
+                return;
+            }
+
+            poems.forEach((poem, i) => {
+                container.appendChild(buildPoemCard(poem, i));
+            });
+        }
+
+        // ── Filter logic ───────────────────────────────────
+        function applyPoemFilters() {
+            const query = document.getElementById("poem-search").value.toLowerCase().trim();
+            let filtered = TIHLData.poems || [];
+
+            if (activeTag !== "all") {
+                filtered = filtered.filter(p => (p.tags || []).includes(activeTag));
+            }
+
+            if (query) {
+                filtered = filtered.filter(p =>
+                    p.title.toLowerCase().includes(query) ||
+                    p.author.toLowerCase().includes(query) ||
+                    p.body.toLowerCase().includes(query) ||
+                    (p.tags || []).some(t => t.toLowerCase().includes(query))
+                );
+            }
+
+            renderPoems(filtered);
+            document.getElementById("poem-count").textContent =
+                `${filtered.length} / ${(TIHLData.poems || []).length} poems`;
+        }
+
+        // ── Copyright ──────────────────────────────────────
+        const copyrightContainer = document.getElementById("copyright-container");
+        (TIHLData.copyright || []).forEach(line => {
+            const p = document.createElement("p");
+            p.textContent = line;
+            copyrightContainer.appendChild(p);
+        });
+
+        // ── Init ───────────────────────────────────────────
+        buildTagFilters();
+        applyPoemFilters();
+    </script>
+
+</body>
+</html>
